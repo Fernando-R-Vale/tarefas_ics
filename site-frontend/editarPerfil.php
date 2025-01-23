@@ -1,21 +1,16 @@
 <?php
 session_start();
-require_once 'db_connection.php'; // Arquivo de conexão com o banco de dados
+require_once 'db_connection.php';
 
-// Email do usuário logado (simulado para fins de exemplo)
 $usuario_email = $_SESSION['email'];
 
-// Mensagem de feedback
 $mensagem = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Obtém os dados do formulário
     $novo_nome = trim($_POST['nome']);
     $nova_senha = trim($_POST['senha']);
 
-    // Valida se os campos foram preenchidos
     if (!empty($novo_nome) && !empty($nova_senha)) {
-        // Atualiza o nome e a senha do usuário no banco de dados
         $sql_update = "UPDATE usuario SET nome = ?, senha = ? WHERE email = ?";
         $stmt = $conn->prepare($sql_update);
         $stmt->bind_param("sss", $novo_nome, $nova_senha, $usuario_email);
@@ -31,7 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Consulta os dados atuais do usuário
 $sql_select = "SELECT nome FROM usuario WHERE email = ?";
 $stmt = $conn->prepare($sql_select);
 $stmt->bind_param("s", $usuario_email);
@@ -76,7 +70,6 @@ $stmt->close();
         </div>
     </nav>
 
-    <!-- Conteúdo Principal -->
     <div class="container mt-5">
         <h2>Editar Perfil</h2>
 

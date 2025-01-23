@@ -1,23 +1,20 @@
 <?php
 session_start();
-require 'db_connection.php'; // Conexão com o banco de dados
+require 'db_connection.php';
 
-// Verifica se o usuário está logado
 if (!isset($_SESSION['email'])) {
-    header('Location: login.html'); // Redireciona para a página de login, se não estiver logado
+    header('Location: login.html'); 
     exit;
 }
 
 $email = $_SESSION['email'];
 
-// Busca os dados do usuário no banco
 $stmt = $conn->prepare("SELECT nome, email FROM usuario WHERE email = ?");
 $stmt->bind_param('s', $email);
 $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
-// Busca estatísticas de tarefas
 $stmt = $conn->prepare("
     SELECT 
         COUNT(*) AS total_tarefas,

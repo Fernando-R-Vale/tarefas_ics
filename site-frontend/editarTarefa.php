@@ -2,7 +2,6 @@
 session_start();
 require 'db_connection.php';
 
-// Verifica se o usuário está logado
 if (!isset($_SESSION['email'])) {
     header('Location: login.php');
     exit;
@@ -16,7 +15,6 @@ if (!$idTarefa) {
     exit;
 }
 
-// Obtém os dados da tarefa
 $queryTarefa = $conn->prepare("SELECT * FROM tarefa WHERE idtarefa = ? AND usuario_email = ?");
 $queryTarefa->bind_param("is", $idTarefa, $emailUsuario);
 $queryTarefa->execute();

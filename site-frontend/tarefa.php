@@ -2,7 +2,6 @@
 session_start();
 require 'db_connection.php';
 
-// Verifica se o usuário está logado
 if (!isset($_SESSION['email'])) {
     header('Location: login.php');
     exit;
@@ -11,7 +10,6 @@ if (!isset($_SESSION['email'])) {
 $emailUsuario = $_SESSION['email'];
 $mensagem = '';
 
-// Processa as ações (Concluir, Excluir)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao'], $_POST['idtarefa'])) {
     $id = intval($_POST['idtarefa']);
     $acao = $_POST['acao'];
@@ -35,7 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao'], $_POST['idtar
     }
 }
 
-// Filtros e ordenação
 $search = $_GET['search'] ?? '';
 $categoryFilter = $_GET['category'] ?? '';
 $sortBy = $_GET['sort'] ?? 'data_criacao';

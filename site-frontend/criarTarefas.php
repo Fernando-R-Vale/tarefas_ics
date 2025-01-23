@@ -2,7 +2,6 @@
 session_start();
 require 'db_connection.php';
 
-// Verifica se o usuário está logado
 if (!isset($_SESSION['email'])) {
     header('Location: login.php');
     exit;
@@ -55,7 +54,6 @@ $emailUsuario = $_SESSION['email'];
                 <label for="taskCategory" class="form-label">Categoria</label>
                 <select class="form-select" id="taskCategory" name="taskCategory">
                     <?php
-                    // Obtém as categorias do usuário logado
                     $queryCategorias = $conn->prepare("SELECT idCategoria, nomeCategoria FROM categoria WHERE usuario_email = ?");
                     $queryCategorias->bind_param("s", $emailUsuario);
                     $queryCategorias->execute();

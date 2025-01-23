@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db_connection.php'; // Arquivo de conexão com o banco de dados
+require 'db_connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email']);
@@ -14,10 +14,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($result->num_rows === 1) {
             $user = $result->fetch_assoc();
-            if ($password === $user['senha']) { // Substituir por hash quando usar senhas seguras
+            if ($password === $user['senha']) { 
                 $_SESSION['email'] = $email;
                 $_SESSION['nome'] = $user['nome'];
-                header('Location: tarefa.php'); // Página inicial após login
+                header('Location: tarefa.php');
                 exit;
             } else {
                 $error = "Senha incorreta.";

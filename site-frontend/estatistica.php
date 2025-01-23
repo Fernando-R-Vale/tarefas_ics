@@ -2,22 +2,21 @@
 session_start();
 require 'db_connection.php';
 
-// Verifica se o usuário está logado
 if (!isset($_SESSION['email'])) {
     header('Location: login.php');
     exit;
 }
 
-// Obtém o email do usuário logado
+
 $usuario_email = $_SESSION['email'];
 
-// Consulta para obter as estatísticas
+
 $sql_total_tarefas = "SELECT COUNT(*) AS total FROM tarefa WHERE usuario_email = ?";
 $sql_tarefas_concluidas = "SELECT COUNT(*) AS concluidas FROM tarefa WHERE usuario_email = ? AND status = 'Concluido'";
 $sql_tarefas_pendentes = "SELECT COUNT(*) AS pendentes FROM tarefa WHERE usuario_email = ? AND status = 'Pendente'";
 $sql_tarefas_atrasadas = "SELECT COUNT(*) AS atrasadas FROM tarefa WHERE usuario_email = ? AND dhLimite < NOW() AND status != 'Concluido'";
 
-// Prepara e executa as consultas
+
 $stmt_total = $conn->prepare($sql_total_tarefas);
 $stmt_total->bind_param("s", $usuario_email);
 $stmt_total->execute();
@@ -38,7 +37,6 @@ $stmt_atrasadas->bind_param("s", $usuario_email);
 $stmt_atrasadas->execute();
 $tarefas_atrasadas = $stmt_atrasadas->get_result()->fetch_assoc()['atrasadas'];
 
-// Fecha a conexão
 $conn->close();
 ?>
 

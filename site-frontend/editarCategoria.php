@@ -2,13 +2,11 @@
 session_start();
 require 'db_connection.php';
 
-// Verifica se o usuário está logado
 if (!isset($_SESSION['email'])) {
     header('Location: login.php');
     exit;
 }
 
-// Verifica se o ID da categoria foi passado
 if (!isset($_GET['id'])) {
     header('Location: categoria.php');
     exit;
@@ -17,7 +15,6 @@ if (!isset($_GET['id'])) {
 $idCategoria = $_GET['id'];
 $mensagem = '';
 
-// Obtém os dados da categoria para edição
 $stmt = $conn->prepare("SELECT idCategoria, nomeCategoria FROM categoria WHERE idCategoria = ? AND usuario_email = ?");
 $stmt->bind_param('is', $idCategoria, $_SESSION['email']);
 $stmt->execute();
@@ -30,7 +27,6 @@ if ($result->num_rows === 0) {
 
 $categoria = $result->fetch_assoc();
 
-// Processa a edição da categoria
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nomeCategoria = trim($_POST['categoryName'] ?? '');
 

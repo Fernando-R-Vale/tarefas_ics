@@ -2,7 +2,6 @@
 session_start();
 require 'db_connection.php';
 
-// Verifica se o usuário está logado
 if (!isset($_SESSION['email'])) {
     header('Location: login.php');
     exit;
@@ -11,7 +10,6 @@ if (!isset($_SESSION['email'])) {
 $emailUsuario = $_SESSION['email'];
 $mensagem = '';
 
-// Processa a adição de uma nova categoria
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nomeCategoria = trim($_POST['categoryName'] ?? '');
 
@@ -36,7 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Obtém as categorias do usuário
 $stmt = $conn->prepare("SELECT idCategoria, nomeCategoria FROM categoria WHERE usuario_email = ?");
 $stmt->bind_param('s', $emailUsuario);
 $stmt->execute();
